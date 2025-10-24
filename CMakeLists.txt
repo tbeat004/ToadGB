@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(ToadGB 
     src/main.cpp
-    src/chip8.cpp
+    src/cpu.cpp
     )
 
 find_package(raylib CONFIG REQUIRED)

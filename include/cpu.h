@@ -13,7 +13,7 @@ public:
     uint16_t SP = 0;
     uint16_t PC = 0;
 
-    // 16-bit views (pairs)
+    // 16-bit pairs
     uint16_t AF() const { return (uint16_t(A) << 8) | (F & 0xF0); }
     void setAF(uint16_t v) { A = uint8_t(v >> 8); F = uint8_t(v & 0xF0); } // mask low nibble
 
@@ -27,7 +27,22 @@ public:
     void setHL(uint16_t v) { H = uint8_t(v >> 8); L = uint8_t(v); }
 
     // Flags
-    enum : uint8_t { ZF = 0x80, NF = 0x40, HF = 0x20, CF = 0x10 };
-    void setFlag(uint8_t m, bool on) { F = on ? uint8_t((F | m) & 0xF0) : uint8_t((F & ~m) & 0xF0); }
-    bool flag(uint8_t m) const { return (F & m) != 0; }
+    enum : uint8_t {
+        ZF = 0x80, // Zero flag
+        NF = 0x40, // Subtraction flag
+        HF = 0x20, // Half-carry flag
+        CF = 0x10,  // Carry flag
+
+        //Full Name Aliases
+        FLAG_ZERO = ZF,
+        FLAG_SUBTRACT = NF,
+        FLAG_HALF_CARRY = HF,
+        FLAG_CARRY = CF
+    };
+    void setFlag(uint8_t mask, bool on) { 
+        F = on ? uint8_t((F | mask) & 0xF0) : uint8_t((F & ~mask) & 0xF0); 
+    }
+    bool flag(uint8_t mask) const {
+        return (F & mask) != 0; 
+    }
 };
